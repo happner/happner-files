@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var Happner = require('happner');
+var config = {
+  name: 'server',
+  datalayer: {
+    host: '127.0.0.1',
+    port: 8080,
+    // secure: true,
+    // adminPassword: 'mesh'
+  },
+
+  modules: {
+    'www': {
+      home: __dirname,
+      instance: {}
+    },
+    'happner-files': {
+      path: path.dirname(__dirname)
+    }
+
+  },
+  components: {
+    'www': {
+      web: {
+        routes: {
+          // http://localhost:8080
+          static: 'static'
+        }
+      }
+    },
+    'happner-files': {
+      web: {
+        routes: {
+          // http://localhost:8080/happner-files/files
+          files: 'handler'
+        }
+      }
+    }
+  }
+};
+
+Happner.create(config)
+
+  .then(function(mesh) {
+
+    //
+
+  })
+
+  .catch(function(error) {
+    console.error(error.stack);
+    process.exit(1);
+  });
