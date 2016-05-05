@@ -1,0 +1,24 @@
+{
+  "name": "happner-files",
+  "version": "0.0.1",
+  "description": "Happner file server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nomilous/happner-files.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nomilous/happner-files/issues"
+  },
+  "homepage": "https://github.com/nomilous/happner-files#readme",
+  "devDependencies": {
+    "happner": "^1.7.0",
+    "mocha": "^2.4.5",
+    "should": "^8.3.1"
+  }
+}
