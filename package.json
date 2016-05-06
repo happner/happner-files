@@ -19,6 +19,7 @@
   "devDependencies": {
     "happner": "^1.7.0",
     "mocha": "^2.4.5",
+    "request": "^2.72.0",
     "should": "^8.3.1"
   }
 }
