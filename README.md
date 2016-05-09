@@ -32,7 +32,7 @@ In mesh config.
   ...
 ```
 
-An upload to `/happner-files/files/match/url/path/filename`<br/>
+An upload to /happner-files/files**/match/url/path**/filename<br/>
 will be stored at `/store/here/filename`.
 
 An upload to `/happner-files/files/kept/deeper/path/filename`<br/>
