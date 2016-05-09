@@ -11,6 +11,10 @@ describe(path.basename(__filename), function() {
       name: 'SERVER',
       host: '127.0.0.1',
       port: 8080,
+      util: {
+        logLevel: 'debug',
+        logComponents: ['happner-files']
+      },
       modules: {
         'happner-files': {
           path: path.dirname(__dirname)
@@ -18,6 +22,11 @@ describe(path.basename(__filename), function() {
       },
       components: {
         'happner-files': {
+          path: {
+            routes: {
+              '/': __dirname + path.sep + 'tmp'
+            }
+          },
           web: {
             routes: {
               files: 'handler'
@@ -38,7 +47,11 @@ describe(path.basename(__filename), function() {
   it('can post a file to the server', function(done) {
     var url = 'http://127.0.0.1:8080/happner-files/files/some/path/LICENSE';
     var fileName = path.normalize(path.dirname(__dirname) + path.sep + 'LICENSE');
-    var post = request.post(url);
+    var post = request.post(url, function(err, res) {
+      if (res.statusCode == 500) {
+        done(new Error('status ' + 500))
+      }
+    });
     var stream = fs.createReadStream(fileName);
     stream.pipe(post);
     post.on('error', done);
