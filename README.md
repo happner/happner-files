@@ -32,8 +32,8 @@ In mesh config.
 ```
 
 An upload to `/happner-files/files/match/url/path/filename`
-will be stored at `/store/here/filename` matching the first path route.
+will be stored at `/store/here/filename`.
 
 An upload to `/happner-files/files/kept/deeper/path/filename`
-will be stored at `/var/www/kept/deeper/path/filename` matching the second path route.
+will be stored at `/var/www/kept/deeper/path/filename`.
 
