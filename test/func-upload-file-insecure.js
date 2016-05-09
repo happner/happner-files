@@ -36,7 +36,7 @@ describe(path.basename(__filename), function() {
   });
 
   it('can post a file to the server', function(done) {
-    var url = 'http://127.0.0.1:8080/happner-files/files/LICENSE';
+    var url = 'http://127.0.0.1:8080/happner-files/files/some/path/LICENSE';
     var fileName = path.normalize(path.dirname(__dirname) + path.sep + 'LICENSE');
     var post = request.post(url);
     var stream = fs.createReadStream(fileName);
