@@ -185,4 +185,8 @@ describe('files', function() {
     });
   });
 
+  context('windows', function() {
+    it('is supported');
+  });
+
 });
