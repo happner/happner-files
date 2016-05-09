@@ -23,6 +23,7 @@ In mesh config.
       // define the happner web route to the upload handler
       web: {
         routes: {
+          // http://host.name/happner-files/files
           files: 'handler'
         }
       }
