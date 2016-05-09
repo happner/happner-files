@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nomilous/happner-files.git"
+    "url": "git+https://github.com/happner/happner-files.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nomilous/happner-files/issues"
+    "url": "https://github.com/happner/happner-files/issues"
   },
-  "homepage": "https://github.com/nomilous/happner-files#readme",
+  "homepage": "https://github.com/happner/happner-files#readme",
   "devDependencies": {
     "happner": "^1.7.0",
     "mocha": "^2.4.5",
