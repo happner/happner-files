@@ -1,10 +1,30 @@
 var Files = require('../lib/files');
 var should = require('should');
+var path = require('path');
+var fs = require('fs');
+var rimraf = require('rimraf');
 
 describe('files', function() {
   beforeEach(function() {
     this.files = new Files();
   });
+
+  beforeEach(function() {
+    this.$happn = {
+      config: {
+      },
+      log: {
+        $$DEBUG: function() {}
+      }
+    };
+    this.req = {
+      url: '/the/url'
+    };
+    this.res = {
+      end: function() {}
+    };
+  });
+
 
   context('routes', function() {
     it('has an empty set of routes upon initialization', function() {
@@ -13,20 +33,6 @@ describe('files', function() {
   });
 
   context('handler()', function() {
-
-    beforeEach(function() {
-      this.$happn = {
-        config: {
-        }
-      };
-      this.req = {
-        url: '/the/url'
-      };
-      this.res = {
-        end: function() {}
-      };
-    });
-
 
     it('is defined', function() {
       this.files.handler.should.be.an.instanceof(Function);
@@ -55,6 +61,38 @@ describe('files', function() {
       });
     });
 
+    it('calls the appropriate METHOD handler', function(done) {
+      this.files._setPathRoutes = function() {
+        return true;
+      };
+      this.files._matchPathRoute = function() {
+        return '/some/new/path';
+      };
+      this.req.method = 'POST';
+      this.files._handlePOST = function($happn, targetFilename, req, res) {
+        targetFilename.should.equal('/some/new/path');
+        done();
+      };
+      this.files.handler(this.$happn, this.req, this.res);
+    });
+
+    it('responds 500 on not yet implemented METHOD handlers', function(done) {
+      this.files._setPathRoutes = function() {
+        return true;
+      };
+      this.files._matchPathRoute = function() {
+        return '/some/new/path';
+      };
+      this.req.method = 'GET';
+      var res = this.res;
+      this.res.end = function(body) {
+        res.statusCode.should.equal(500);
+        body.should.equal('happner-files: GET method not implemented');
+        done();
+      };
+      this.files.handler(this.$happn, this.req, this.res);
+    });
+
   });
 
   context('_setPathRoutes()', function() {
@@ -78,14 +116,14 @@ describe('files', function() {
         config: {
           path: {
             routes: {
-              '/happner-files/files': '/tmp/files'
+              '/path': '/tmp/files'
             }
           }
         }
       };
       this.files._setPathRoutes($happn).should.equal(true);
       this.files.routes.should.eql([
-        {match: /^\/happner-files\/files/, path: '/tmp/files'}
+        {match: /^\/path/, path: '/tmp/files'}
       ]);
     });
   });
@@ -94,11 +132,11 @@ describe('files', function() {
     it('returns the targetFilename with the matching path route substituted in', function(done) {
       this.files.routes = [
         {
-          match: /^\/happner-files\/files/,
+          match: /^\/path/,
           path: '/tmp/files'
         }
       ];
-      var targetFilename = this.files._matchPathRoute('/happner-files/files/some/name');
+      var targetFilename = this.files._matchPathRoute('/path/some/name');
       targetFilename.should.equal('/tmp/files/some/name');
       done();
     });
@@ -106,15 +144,15 @@ describe('files', function() {
     it('returns the first match', function(done) {
       this.files.routes = [
         {
-          match: /^\/happner-files\/trials/,
+          match: /^\/harth/,
           path: '/tmp/files'
         },
         {
-          match: /^\/happner-files\/files/,
+          match: /^\/path/,
           path: '/tmp/files'
         }
       ];
-      var targetFilename = this.files._matchPathRoute('/happner-files/files/some/name');
+      var targetFilename = this.files._matchPathRoute('/path/some/name');
       targetFilename.should.equal('/tmp/files/some/name');
       done();
     });
@@ -122,13 +160,28 @@ describe('files', function() {
     it('returns false if no match', function(done) {
       this.files.routes = [
         {
-          match: /^\/happner-files\/trials/,
+          match: /^\/garth/,
           path: '/tmp/files'
         }
       ];
-      var targetFilename = this.files._matchPathRoute('/happner-files/files/some/name');
+      var targetFilename = this.files._matchPathRoute('/path/some/name');
       targetFilename.should.equal(false);
       done();
+    });
+  });
+
+  context('_handlePOST', function() {
+    it('creates the target directory', function(done) {
+      var targetFilename = __dirname + path.sep + 'tmp' + path.sep + 'directory' + path.sep + 'filename';
+      this.req.on = function(event, handler) {
+        if (event === 'end') handler();
+      };
+      this.res.end = function() {
+        fs.lstatSync(path.dirname(targetFilename)); // should exist, or throws to fail test
+        rimraf.sync(path.dirname(targetFilename));
+        done();
+      };
+      this.files._handlePOST(this.$happn, targetFilename, this.req, this.res);
     });
   });
 

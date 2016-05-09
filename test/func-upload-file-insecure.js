@@ -2,6 +2,8 @@ var Happner = require('happner');
 var path = require('path');
 var request = require('request');
 var fs = require('fs');
+var rimraf = require('rimraf');
+var should = require('should');
 
 describe(path.basename(__filename), function() {
 
@@ -57,6 +59,15 @@ describe(path.basename(__filename), function() {
     post.on('error', done);
     stream.on('error', done);
     post.on('end', function() {
+
+      var original = fs.readFileSync(fileName).toString();
+      var uploaded = fs.readFileSync(
+          __dirname + path.sep + 'tmp' + path.sep + 'some' + path.sep + 'path' + path.sep + 'LICENSE'
+        ).toString()
+
+      uploaded.should.equal(original);
+
+      rimraf.sync(__dirname + path.sep + 'tmp' + path.sep + 'some');
       done();
     });
   });
