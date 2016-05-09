@@ -31,6 +31,11 @@ var config = {
       }
     },
     'happner-files': {
+      path: {
+        routes: {
+          '/': __dirname + path.sep + 'files'
+        }
+      },
       web: {
         routes: {
           // http://localhost:8080/happner-files/files
