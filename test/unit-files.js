@@ -123,7 +123,7 @@ describe('files', function() {
       };
       this.files._setPathRoutes($happn).should.equal(true);
       this.files.routes.should.eql([
-        {match: /^\/path/, path: '/tmp/files'}
+        {match: new RegExp('^/path'), path: '/tmp/files'} // mocha comparator needs a dynamic regex here
       ]);
     });
   });
