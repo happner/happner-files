@@ -82,25 +82,33 @@ function configureSecurity(mesh) {
     {
       name: 'oem1-admin',
       permissions: {
-        '/happner-files/files/oem1/*': {actions: ['get', 'post']}
+        web: {
+          '/happner-files/files/oem1/*': {actions: ['get', 'post']}
+        }
       }
     },
     {
       name: 'oem1-user',
       permissions: {
-        '/happner-files/files/oem1/*': {actions: ['get']}
+        web: {
+          '/happner-files/files/oem1/*': {actions: ['get']}
+        }
       }
     },
     {
       name: 'oem2-admin',
       permissions: {
-        '/happner-files/files/oem2/*': {actions: ['get', 'post']}
+        web: {
+          '/happner-files/files/oem2/*': {actions: ['get', 'post']}
+        }
       }
     },
     {
       name: 'oem2-user',
       permissions: {
-        '/happner-files/files/oem2/*': {actions: ['get']}
+        web: {
+          '/happner-files/files/oem2/*': {actions: ['get']}
+        }
       }
     }
   ];
