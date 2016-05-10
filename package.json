@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/happner/happner-files#readme",
   "devDependencies": {
+    "bluebird": "^3.3.5",
     "happner": "^1.7.0",
     "mocha": "^2.4.5",
     "request": "^2.72.0",
