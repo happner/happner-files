@@ -29,6 +29,7 @@ function startPage() {
 
   logout.onclick = function() {
     document.cookie = 'happn_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    loginStatus.innerHTML = 'logged out';
   };
 
 
