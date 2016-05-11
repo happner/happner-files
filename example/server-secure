@@ -9,7 +9,17 @@ var config = {
     host: '127.0.0.1',
     port: 8080,
     secure: true,
-    adminPassword: 'mesh'
+    adminPassword: 'mesh',
+    middleware: {
+      security: {
+        exclusions: [
+          '/',
+          '/style.css',
+          '/script.js',
+          '/favicon.ico' // TODO: add to default exclusions
+        ]
+      }
+    }
   },
   modules: {
     'www': {
@@ -24,7 +34,7 @@ var config = {
     'www': {
       web: {
         routes: {
-          // http://localhost:8080
+          // http://127.0.0.1:8080/
           static: 'static'
         }
       }
@@ -37,7 +47,7 @@ var config = {
       },
       web: {
         routes: {
-          // http://localhost:8080/happner-files/files
+          // http://127.0.0.1:8080/happner-files/files
           files: 'handler'
         }
       }

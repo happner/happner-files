@@ -1,0 +1,41 @@
+.session {
+  position: absolute;
+  top: 40px;
+  left: 235px;
+  border: 1px solid grey;
+  width: 300px;
+  height: 80px;
+  text-align: center;
+  padding: 10px;
+}
+
+.upload {
+  position: absolute;
+  top: 150px;
+  left: 235px;
+  border: 1px solid grey;
+  width: 300px;
+  height: 60px;
+  text-align: center;
+  padding: 10px;
+}
+
+.oem1box {
+  position: absolute;
+  top: 240px;
+  left: 50px;
+  border: 1px solid grey;
+  width: 300px;
+  height: 120px;
+  padding: 20px;
+}
+
+.oem2box {
+  position: absolute;
+  top: 240px;
+  left: 400px;
+  border: 1px solid grey;
+  width: 300px;
+  height: 120px;
+  padding: 20px;
+}
