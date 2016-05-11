@@ -6,30 +6,16 @@ var config = {
   name: 'server',
   datalayer: {
     host: '127.0.0.1',
-    port: 8080,
-    // secure: true,
-    // adminPassword: 'mesh'
+    port: 8080
   },
 
   modules: {
-    'www': {
-      home: __dirname,
-      instance: {}
-    },
     'happner-files': {
       path: path.dirname(__dirname)
     }
 
   },
   components: {
-    'www': {
-      web: {
-        routes: {
-          // http://localhost:8080
-          static: 'static'
-        }
-      }
-    },
     'happner-files': {
       path: {
         routes: {
@@ -47,13 +33,9 @@ var config = {
 };
 
 Happner.create(config)
-
   .then(function(mesh) {
-
     // console.log(mesh);
-
   })
-
   .catch(function(error) {
     console.error(error.stack);
     process.exit(1);

@@ -1,0 +1,150 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var Promise = require('bluebird');
+var Happner = require('happner');
+var config = {
+  name: 'server',
+  datalayer: {
+    host: '127.0.0.1',
+    port: 8080,
+    secure: true,
+    adminPassword: 'mesh',
+    middleware: {
+      security: {
+        exclusions: [
+          '/',
+          '/style.css',
+          '/script.js',
+          '/favicon.ico' // TODO: add to default exclusions
+        ]
+      }
+    }
+  },
+  modules: {
+    'www': {
+      home: __dirname,
+      instance: {}
+    },
+    'happner-files': {
+      path: path.dirname(__dirname)
+    }
+  },
+  components: {
+    'www': {
+      web: {
+        routes: {
+          // http://127.0.0.1:8080/
+          static: 'static'
+        }
+      }
+    },
+    'happner-files': {
+      path: {
+        routes: {
+          '/': __dirname + path.sep + 'files'
+        }
+      },
+      web: {
+        routes: {
+          // http://127.0.0.1:8080/happner-files/files
+          files: 'handler'
+        }
+      }
+    }
+  }
+};
+
+Happner.create(config)
+
+  .then(configureSecurity)
+
+  .catch(function(error) {
+    console.error(error.stack);
+    process.exit(1);
+  });
+
+
+function configureSecurity(mesh) {
+
+  var oem1Admin, oem1User, oem2Admin, oem2User;
+  var users = [
+    {
+      username: 'oem1-admin',
+      password: 'x'
+    },
+    {
+      username: 'oem1-user',
+      password: 'x'
+    },
+    {
+      username: 'oem2-admin',
+      password: 'x'
+    },
+    {
+      username: 'oem2-user',
+      password: 'x'
+    }
+  ];
+
+  var oem1AdminGroup, oem1UserGroup, oem2AdminGroup, oem2UserGroup;
+  var groups = [
+    {
+      name: 'oem1-admin',
+      permissions: {
+        web: {
+          '/happner-files/files/oem1/*': {actions: ['get', 'post']}
+        }
+      }
+    },
+    {
+      name: 'oem1-user',
+      permissions: {
+        web: {
+          '/happner-files/files/oem1/*': {actions: ['get']}
+        }
+      }
+    },
+    {
+      name: 'oem2-admin',
+      permissions: {
+        web: {
+          '/happner-files/files/oem2/*': {actions: ['get', 'post']}
+        }
+      }
+    },
+    {
+      name: 'oem2-user',
+      permissions: {
+        web: {
+          '/happner-files/files/oem2/*': {actions: ['get']}
+        }
+      }
+    }
+  ];
+
+  return Promise.resolve(users).map(function(user) {
+    return mesh.exchange.security.addUser(user);
+  }).then(function(_users) {
+    oem1Admin = _users[0];
+    oem1User = _users[1];
+    oem2Admin = _users[2];
+    oem2User = _users[3];
+    return Promise.resolve(groups).map(function(group) {
+      return mesh.exchange.security.addGroup(group);
+    });
+  }).then(function(_groups) {
+    oem1AdminGroup = _groups[0];
+    oem1UserGroup = _groups[1];
+    oem2AdminGroup = _groups[2];
+    oem2UserGroup = _groups[3];
+    return mesh.exchange.security.linkGroup(oem1AdminGroup, oem1Admin);
+  }).then(function() {
+    return mesh.exchange.security.linkGroup(oem1UserGroup, oem1User);
+  }).then(function() {
+    return mesh.exchange.security.linkGroup(oem2AdminGroup, oem2Admin);
+  }).then(function() {
+    return mesh.exchange.security.linkGroup(oem2UserGroup, oem2User);
+  });
+}
+

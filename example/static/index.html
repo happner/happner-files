@@ -3,8 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/api/client"></script>
+    <script src="/script.js"></script>
 </head>
 <body>
+
+  <div class="session">
+    <input id="username" type="text" placeholder="username"><br/>
+    <input id="password" type="password" placeholder="password"><br/>
+    <input id="login" type="button" value="login">
+    <input id="logout" type="button" value="logout"><br/>
+    <div id="loginStatus">pending login</div>
+  </div>
+
+  <div class="upload">
+    upload status:<br/>
+    <div id="uploadPercentStatus">...</div>
+    <div id="uploadStatus">...</div>
+  </div>
+
+  <div class="oem1box">
+    username: oem1-admin<br/>
+    password: x<br/>
+    <br/>
+    upload file to /happner-files/files/<b>oem1</b>/*<br/>
+    <br/>
+    <input id="oem1-file" type="file">
+  </div>
+
+  <div class="oem2box">
+    username: oem2-admin<br/>
+    password: x<br/>
+    <br/>
+    upload file to /happner-files/files/<b>oem2</b>/*<br/>
+    <br/>
+    <input id="oem2-file" type="file">
+  </div>
+
+  <script>startPage()</script>
 
 </body>
 </html>
