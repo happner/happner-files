@@ -9,11 +9,19 @@
 Post upload
 ```bash
 curl -X POST --data-binary @../LICENSE http://localhost:8080/happner-files/files/uploaded/LICENSE
+
+# proof of upload
+cat files/uploaded/LICENSE
 ```
 
-Upload proof
+Get download
 ```bash
-cat files/uploaded/LICENSE
+cd example/downloads && rm LICENSE
+curl http://localhost:8080/happner-files/files/uploaded/LICENSE
+
+# proof of download
+cd example/downloads
+cat LICENSE
 ```
 
 ### server-secure
