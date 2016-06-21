@@ -1,5 +1,9 @@
 ## Examples
 
+```back
+cd example
+```
+
 ### server-insecure
 
 ```bash
@@ -16,12 +20,10 @@ cat files/uploaded/LICENSE
 
 Get download
 ```bash
-cd downloads && rm LICENSE
-curl http://localhost:8080/happner-files/files/uploaded/LICENSE
+curl http://localhost:8080/happner-files/files/uploaded/LICENSE > downloads/LICENSE
 
 # proof of download
-cd example/downloads
-cat LICENSE
+cat downloads/LICENSE
 ```
 
 ### server-secure

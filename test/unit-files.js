@@ -87,11 +87,11 @@ describe('files', function() {
       this.files._matchPathRoute = function() {
         return '/some/new/path';
       };
-      this.req.method = 'GET';
+      this.req.method = 'HEAD';
       var res = this.res;
       this.res.end = function(body) {
         res.statusCode.should.equal(500);
-        body.should.equal('happner-files: GET method not implemented');
+        body.should.equal('happner-files: HEAD method not implemented');
         done();
       };
       this.files.handler(this.$happn, this.req, this.res);
@@ -217,7 +217,7 @@ describe('files', function() {
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
 
-    it.only('returns 404 if file is a directory', function(done) {
+    it('returns 404 if file is a directory', function(done) {
       // Will support directory listing later
       var targetFilename = '/directory/mocked/in/fs/lstat/below';
       var original = fs.lstat;
