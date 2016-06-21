@@ -197,7 +197,7 @@ describe('files', function() {
       this.res.end = function() {
         _this.res.statusCode.should.equal(404);
         done();
-      }
+      };
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
 
@@ -213,7 +213,7 @@ describe('files', function() {
         fs.lstat = original;
         _this.res.statusCode.should.equal(500);
         done();
-      }
+      };
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
 
@@ -234,7 +234,7 @@ describe('files', function() {
         fs.lstat = original;
         _this.res.statusCode.should.equal(404);
         done();
-      }
+      };
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
   });
