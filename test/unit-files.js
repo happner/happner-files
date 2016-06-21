@@ -14,7 +14,11 @@ describe('files', function() {
       config: {
       },
       log: {
-        $$DEBUG: function() {}
+        $$DEBUG: function() {
+          // console.log(arguments);
+        },
+        error: function() {
+        }
       }
     };
     this.req = {
@@ -83,11 +87,11 @@ describe('files', function() {
       this.files._matchPathRoute = function() {
         return '/some/new/path';
       };
-      this.req.method = 'GET';
+      this.req.method = 'HEAD';
       var res = this.res;
       this.res.end = function(body) {
         res.statusCode.should.equal(500);
-        body.should.equal('happner-files: GET method not implemented');
+        body.should.equal('happner-files: HEAD method not implemented');
         done();
       };
       this.files.handler(this.$happn, this.req, this.res);
@@ -182,6 +186,56 @@ describe('files', function() {
         done();
       };
       this.files._handlePOST(this.$happn, targetFilename, this.req, this.res);
+    });
+  });
+
+  context('_handleGET', function() {
+    it('returns 404 if no such file', function(done) {
+      var targetFilename = './some/nonexistant/path';
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        _this.res.statusCode.should.equal(404);
+        done();
+      };
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
+    });
+
+    it('returns 500 if some error other than file not found occurs', function(done) {
+      var targetFilename = './the/mocked/fs/lstat/below/causes/other/someerror/on/this/path';
+      var original = fs.lstat;
+      fs.lstat = function(path, callback) {
+        callback(new Error('some other error'));
+      };
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        fs.lstat = original;
+        _this.res.statusCode.should.equal(500);
+        done();
+      };
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
+    });
+
+    it('returns 404 if file is a directory', function(done) {
+      // Will support directory listing later
+      var targetFilename = '/directory/mocked/in/fs/lstat/below';
+      var original = fs.lstat;
+      fs.lstat = function(path, callback) {
+        callback(null, {
+          isDirectory: function() {
+            return true;
+          }
+        });
+      };
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        fs.lstat = original;
+        _this.res.statusCode.should.equal(404);
+        done();
+      };
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
   });
 

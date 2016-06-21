@@ -1,5 +1,9 @@
 ## Examples
 
+```back
+cd example
+```
+
 ### server-insecure
 
 ```bash
@@ -9,11 +13,17 @@
 Post upload
 ```bash
 curl -X POST --data-binary @../LICENSE http://localhost:8080/happner-files/files/uploaded/LICENSE
+
+# proof of upload
+cat files/uploaded/LICENSE
 ```
 
-Upload proof
+Get download
 ```bash
-cat files/uploaded/LICENSE
+curl http://localhost:8080/happner-files/files/uploaded/LICENSE > downloads/LICENSE
+
+# proof of download
+cat downloads/LICENSE
 ```
 
 ### server-secure
