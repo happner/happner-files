@@ -185,6 +185,17 @@ describe('files', function() {
     });
   });
 
+  context('_handleGET', function() {
+    xit('returns 404 if no such file', function(done) {
+
+    });
+
+    xit('returns 404 if file is a directory', function(done) {
+      // Will support directory listing later
+
+    });
+  });
+
   context('windows', function() {
     it('is supported');
   });
