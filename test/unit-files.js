@@ -16,6 +16,8 @@ describe('files', function() {
       log: {
         $$DEBUG: function() {
           // console.log(arguments);
+        },
+        error: function() {
         }
       }
     };
@@ -197,7 +199,6 @@ describe('files', function() {
         done();
       }
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
-
     });
 
     it('returns 500 if some error other than file not found occurs', function(done) {
@@ -205,8 +206,7 @@ describe('files', function() {
       var original = fs.lstat;
       fs.lstat = function(path, callback) {
         callback(new Error('some other error'));
-      }
-
+      };
       delete this.res.statusCode;
       var _this = this;
       this.res.end = function() {
@@ -215,12 +215,27 @@ describe('files', function() {
         done();
       }
       this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
-
     });
 
-    xit('returns 404 if file is a directory', function(done) {
+    it.only('returns 404 if file is a directory', function(done) {
       // Will support directory listing later
-
+      var targetFilename = '/directory/mocked/in/fs/lstat/below';
+      var original = fs.lstat;
+      fs.lstat = function(path, callback) {
+        callback(null, {
+          isDirectory: function() {
+            return true;
+          }
+        });
+      };
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        fs.lstat = original;
+        _this.res.statusCode.should.equal(404);
+        done();
+      }
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
     });
   });
 
