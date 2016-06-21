@@ -14,7 +14,9 @@ describe('files', function() {
       config: {
       },
       log: {
-        $$DEBUG: function() {}
+        $$DEBUG: function() {
+          // console.log(arguments);
+        }
       }
     };
     this.req = {
@@ -186,7 +188,33 @@ describe('files', function() {
   });
 
   context('_handleGET', function() {
-    xit('returns 404 if no such file', function(done) {
+    it('returns 404 if no such file', function(done) {
+      var targetFilename = './some/nonexistant/path';
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        _this.res.statusCode.should.equal(404);
+        done();
+      }
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
+
+    });
+
+    it('returns 500 if some error other than file not found occurs', function(done) {
+      var targetFilename = './the/mocked/fs/lstat/below/causes/other/someerror/on/this/path';
+      var original = fs.lstat;
+      fs.lstat = function(path, callback) {
+        callback(new Error('some other error'));
+      }
+
+      delete this.res.statusCode;
+      var _this = this;
+      this.res.end = function() {
+        fs.lstat = original;
+        _this.res.statusCode.should.equal(500);
+        done();
+      }
+      this.files._handleGET(this.$happn, targetFilename, this.req, this.res);
 
     });
 

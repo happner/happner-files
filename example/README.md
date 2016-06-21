@@ -16,7 +16,7 @@ cat files/uploaded/LICENSE
 
 Get download
 ```bash
-cd example/downloads && rm LICENSE
+cd downloads && rm LICENSE
 curl http://localhost:8080/happner-files/files/uploaded/LICENSE
 
 # proof of download
