@@ -1,4 +1,4 @@
-var Happner = require('happner');
+var Happner = require('happner-2');
 var path = require('path');
 var request = require('request');
 var fs = require('fs');

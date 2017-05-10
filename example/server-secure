@@ -2,10 +2,10 @@
 
 var path = require('path');
 var Promise = require('bluebird');
-var Happner = require('happner');
+var Happner = require('happner-2');
 var config = {
   name: 'server',
-  datalayer: {
+  happn: {
     host: '127.0.0.1',
     port: 8080,
     secure: true,
