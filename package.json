@@ -1,6 +1,6 @@
 {
   "name": "happner-files",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Happner file server",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "homepage": "https://github.com/happner/happner-files#readme",
   "devDependencies": {
     "bluebird": "^3.3.5",
-    "happner": "^1.7.0",
+    "happner-2": "^2.13.0",
     "mocha": "^2.4.5",
     "request": "^2.72.0",
     "rimraf": "^2.5.2",
