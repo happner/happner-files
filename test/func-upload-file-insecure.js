@@ -50,6 +50,9 @@ describe(path.basename(__filename), function() {
     var url = 'http://127.0.0.1:8080/happner-files/files/some/path/LICENSE';
     var fileName = path.normalize(path.dirname(__dirname) + path.sep + 'LICENSE');
     var post = request.post(url, function(err, res) {
+      res.headers.should.have.property('access-control-allow-origin', '*')
+      res.headers.should.have.property('access-control-allow-methods', 'GET, PUT, OPTIONS')
+      res.headers.should.have.property('access-control-allow-headers', 'Content-Type, Content-Size, Access-Control-Allow-Origin')
       if (res.statusCode == 500) {
         done(new Error('status ' + 500))
       }
