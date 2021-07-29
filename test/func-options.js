@@ -1,15 +1,12 @@
-var Happner = require('happner-2');
-var path = require('path');
-var request = require('request');
-var fs = require('fs');
-var rimraf = require('rimraf');
-var should = require('should');
-var http = require('http');
+const Happner = require('happner-2');
+const path = require('path');
+const should = require('should');
+const http = require('http');
 
-describe.only(path.basename(__filename), function() {
+describe(path.basename(__filename), function() {
 
   before(function(done) {
-    var _this = this;
+    const _this = this;
     Happner.create({
       name: 'SERVER',
       host: '127.0.0.1',
@@ -47,7 +44,7 @@ describe.only(path.basename(__filename), function() {
     this.server.stop(done);
   });
 
-  it('can post a file to the server', function(done) {
+  it('server handles OPTION request type', function(done) {
 
   const options = {
     hostname: '127.0.0.1',

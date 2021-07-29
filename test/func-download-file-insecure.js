@@ -64,6 +64,9 @@ describe(path.basename(__filename), function() {
     var saveFilename = __dirname + path.sep + 'tmp' + path.sep + 'DOWNLOADED-FILENAME';
     var saveFile = fs.createWriteStream(saveFilename);
     http.get(url, function(res) {
+      res.headers.should.have.property("access-control-allow-origin", "*")
+      res.headers.should.have.property("access-control-allow-methods", "GET, PUT, OPTIONS")
+      res.headers.should.have.property("access-control-allow-headers", "Content-Type, Content-Size, Access-Control-Allow-Origin")
       res.pipe(saveFile);
       saveFile.on('close', function() {
         fs.readFileSync(saveFilename).toString().should.equal("FILE CONTENT");
