@@ -67,10 +67,6 @@ describe(path.basename(__filename), function() {
     console.error(`problem with request: ${e.message}`);
     done(e)
   });
-
-
   req.end();
-
-
   });
 });
