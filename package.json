@@ -19,7 +19,7 @@
   "devDependencies": {
     "bluebird": "^3.3.5",
     "happner-2": "^5.2.1",
-    "mocha": "^2.4.5",
+    "mocha": "^10.1.0",
     "request": "^2.72.0",
     "rimraf": "^2.5.2",
     "should": "^8.3.1"
