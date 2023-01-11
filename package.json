@@ -18,8 +18,8 @@
   "homepage": "https://github.com/happner/happner-files#readme",
   "devDependencies": {
     "bluebird": "^3.3.5",
-    "happner-2": "^5.2.1",
-    "mocha": "^2.4.5",
+    "happner-2": "^12.5.4",
+    "mocha": "^10.2.0",
     "request": "^2.72.0",
     "rimraf": "^2.5.2",
     "should": "^8.3.1"
